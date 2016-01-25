@@ -1,47 +1,50 @@
-function Place(city, landmark, president) {
-debugger;
+unction Places(city, country, landmark, year, notes){
   this.city = city;
+  this.country = country;
   this.landmark = landmark;
-  this.president = president;
+  this.year = year;
+  this.notes = notes;
 };
 
-Place.prototype.fullName = function() {
-  return this.city + ", " + this.landmark + ", " + this.president;
+Places.prototype.fullName = function () {
+  return this.city + ", " + this.country;
 };
 
-$(document).ready(function() {
+Places.prototype.dearDiary = function () {
+  return this.year + "Dear Diary, Today in " + this.city + ", " + this.notes;
+};
 
-  $("form#new-place").submit(function(event) {
+
+$(function() {
+  $("form#newPlace").submit(function(event){
     event.preventDefault();
 
-  $("#add-destination").click(function() {
+    var inputCity = $("input#newCity").val();
+    var inputCountry = $("input#newCountry").val();
+    var inputLandmark = $("input#newlandmark").val();
+    var inputYear = $("input#newYear").val();
+    var inputNotes = $("input#newNotes").val();
+    var newPlace = new Places(inputCity, inputCountry, inputLandmark, inputYear, inputNotes);
+
+    $("ul#places").append("<li><span class='place'>" + newPlace.fullName() + "</span></li>");
+    $("#dearDiary").text(newPlace.dearDiary());
+
+    $("input#newCity").val("");
+    $("input#newCountry").val("");
+    $("input#newLandmark").val("");
+    $("input#newYear").val("");
+    $("input#newNotes").val("");
+
+
+    $(".place").last().click(function() {
+      $("#show-place").show();
+      $("#show-place h2").text(newPlace.fullName());
+      $(".city").text(newPlace.city);
+      $(".country").text(newPlace.country);
+      $(".landmark").text(newPlace.landmark);
+      $(".year").text(newPlace.year);
+      $(".notes").text(newPlace.notes);
+    })
+
   });
-
-  var inputCity = $("input#new-city").val();
-  var inputLandmark = $("input#new-landmark").val();
-  var inputPresident = $("input#new-president").val();
-  var newPlace = new Place(inputCity, inputLandmark, inputPresident);
-
-  $("ul#destination").append("<li><span class='Place'>" + newPlace.fullName() + "</span></li>");
-
-  $("input#new-city").val("");
-  $("input#new-landmark").val("");
-  $("input.president").val("");
-
-  $(".destination").last().click(function() {
-    $("#show-destination").show();
-    $("#show-destination h2").text(newPlace.fullName());
-    $(".city").text(newDestination.city);
-    $(".landmark").text(newDestination.landmark);
-    $(".president").text(newDestination.president);
-    $("ul#destination").text("");
-    newPlace.destination.forEach(function(Place) {
-      $("ul#destination").append("<li>" + Place.fullPlace() + "</li>");
-
-
-    });
-  });
-
-
- });
 });
